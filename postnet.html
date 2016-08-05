@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="page/css/common.css"/>
     <link rel="stylesheet" href="page/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="page/css/bootstrap.css"/>
-    <script src="page/jquery/jquery.min.js"></script>
+    <script src="page/jquery/jquery-3.1.0.js"></script>
     <script src="page/js/bootstrap.js"></script>
     <script src="page/js/bootstrap.min.js"></script>
+    <script src="page/js/verfication.js"></script>
     <title>postnet</title>
 
     <!-- include source files here... -->
-    <script src="src/pos.js"></script>
     <!-- include spec files here... -->
     <style type="text/css">
         body {
@@ -26,6 +26,39 @@
             font-size: 18px;
         }
     </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#ok').click(function(){
+                var code = $('#inputs_code').val();
+                if(code===''){
+                    //提示用户输入：
+                    $('#promot_msg').show();
+                    return;
+                }
+
+                if($('#barToZip').is( ":checked" )){
+                    if(secBarCode(code)){
+
+                    }else{
+                        $('#err_msg').show();
+                    }
+                }
+                if($('#zipToBar').is( ":checked" )){
+                   if(secPostCode(code)){
+
+                   }else{
+                       $('#err_msg').show();
+                   }
+                }
+
+            });
+            $('#inputs_code').focusin(function(){
+                $('#promot_msg').hide();
+                $('#err_msg').hide();
+            });
+        });
+    </script>
+
 </head>
 <body>
 
@@ -40,24 +73,25 @@
 
             <div class="col-sm-6">
                 <input type="text" name="inputs_code" class="form-control" id="inputs_code" placeholder="Please input a code in here">
-                <span name="err_msg" class="text-danger">Err</span>
+                <p id="err_msg" hidden="hidden" class="text-danger">Error! inputs is leage.Please input try again.</p>
+                <p id="promot_msg" hidden="hidden" class="text-info">Tips : Please input code.</p>
             </div>
         </div>
         <div class="form-group">
+
             <label for="result" class="col-sm-4 control-label"> Result : </label>
 
             <div class="col-sm-4">
-                <span id="result" name="result">|：|：|：|</span>
+                <p id="result" name="result">|：|：|：|</p>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-6">
                 <div class="checkbox">
                     <label>
-                        <input type="radio" form="translatorForm" id="translator_method" value="barToZip" checked/>Barcode to Zipcode
-                    </label>
+                        <input type="radio" form="translatorForm" name="translator_method" id="barToZip" value="barToZip" checked/>Barcode to Zipcode</label>
                     <label>
-                        <input type="radio" form="translatorForm" id="translator_method" value="zipToBar"/>Zipcode to Barcode
+                        <input type="radio" form="translatorForm" name="translator_method" id="zipToBar" value="zipToBar"/>Zipcode to Barcode
                     </label>
 
                 </div>
@@ -65,7 +99,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-5 col-sm-2">
-                <button type="submit" name="ok" class="btn btn-primary btn-block">OK</button>
+                <button type="button" id="ok" class="btn btn-primary btn-block">OK</button>
             </div>
         </div>
     </form>
