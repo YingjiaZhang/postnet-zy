@@ -43,11 +43,11 @@ function matchPostcode(barcodes, postSecCode) {
 }
 
 function getBarcodeStr(postBarcodes, postCode) {
-    let str = 'Validation Check: ' + postCode + ' == |';
+    let str = '|'+' ';
     postBarcodes.forEach(function (code) {
-        str += code;
+        str += code + ' ';
     });
-    str += '|\n\ncd is 0';
+    str += '|';
     return str;
 }
 
@@ -56,7 +56,7 @@ class PostcodeToBarcode {
     printBarcode(postCode) {
         let sec_correct = secPostCode(postCode);
         if (!sec_correct) {
-            return 'Error! 邮编格式错误！';
+            return 'ERROR_TYPE_THREE';//Error! 邮编格式错误！
         }
         let formatPostcode = formatPostCode(postCode);
         let secCode = getSecCode(formatPostcode);

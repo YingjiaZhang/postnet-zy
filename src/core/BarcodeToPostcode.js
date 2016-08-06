@@ -23,7 +23,6 @@ function matchBarcode(barCode) {
     return true;
 }
 function secBarCode(barCode) {
-    console.log(barCode);
     if (!(barCode.length === 39 || barCode.length === 63)) {
         return false;
     }
@@ -67,20 +66,7 @@ function checkSecCode(postCode) {
 function getPostStr(postCode, barCode) {
 
     let postcodeStr = postCode.substring(0, postCode.length - 1);
-    let i = 0;
-    let str = 'Example:    ' + barCode;
-    str += '\nBar Code    Frame   ';
-    postcodeStr.split('').forEach(function (code) {
-        str += 'Digit-' + (++i) + ' ';
-    });
-    str += 'CD  Frame\n';
-    str += postcodeStr.length === 9 ? postcodeStr.substring(0, 5) + '-' + postcodeStr.substring(5, postcodeStr.length) : postcodeStr;
-    str += '     Bar';
-    postCode.split('').forEach(function (code) {
-        str += '(' + code + ') '
-    });
-    str += ' Bar';
-
+    let str = postcodeStr.length === 9 ? postcodeStr.substring(0, 5) + '-' + postcodeStr.substring(5, postcodeStr.length) : postcodeStr;
     return str;
 }
 
@@ -107,14 +93,14 @@ class BarcodeToPostcode {
     printPostCode(barCode) {
         let sec_collection = secBarCode(barCode);
         if (!sec_collection) {
-            return 'Error! 条码格式错误！ ';
+            return 'ERROR_TYPE_ONE';//Error! 条码格式错误！
         }
         let formatBarcode = formatBarCode(barCode);
         let barcodes = loadAllBarcodes();
         let postCode = getPostCode(barcodes, formatBarcode);
         let check_result = checkSecCode(postCode);
         if (!check_result) {
-            return 'Error! 验证码错误！ ';
+            return 'ERROR_TYPE_TWO';//Error! 验证码错误！
         }
         let postCodeStr = getPostStr(postCode, barCode);
         return postCodeStr;

@@ -27,45 +27,77 @@
         }
     </style>
     <script type="text/javascript">
-        $(document).ready(function(){
-            $('#ok').click(function(){
+        $(document).ready(function () {
+            $('#ok').click(function () {
+
+                $('#promot_msg').hide();
+                $('#err_msg').hide();
+                $('#err_msg').text('Error! inputs is leage.Please input try again.');
+                $('#result').text('');
+
                 var code = $('#inputs_code').val();
-                if(code===''){
+                if (code === '') {
                     //提示用户输入：
                     $('#promot_msg').show();
                     return;
                 }
 
-                if($('#barToZip').is( ":checked" )){
-                    if(secBarCode(code)){
-                        $.post('/barToZip',{
-                                    code:code
-                                },function(data,status){
-                                    $('#result').text(data);
+                if ($('#barToZip').is(":checked")) {
+                    if (secBarCode(code)) {
+                        $.post('/barToZip', {
+                                    code: code
+                                }, function (data, status) {
+
+                                    if (status === 'success') {
+
+                                        if (data === 'ERROR_TYPE_ONE') {
+                                            $('#err_msg').text('Error! 条形码格式错误 ！');
+                                            $('#err_msg').show();
+                                            return;
+                                        }
+                                        if (data === 'ERROR_TYPE_TWO') {
+                                            $('#err_msg').text('Error! 校验码验证错误 ！');
+                                            $('#err_msg').show();
+//                                            $('#err_msg').text('Error! inputs is leage.Please input try again.');
+                                            return;
+                                        }
+                                        $('#result').text(data);
+                                        return;
+                                    }
+
                                 }
                         );
 
-                    }else{
+                    } else {
                         $('#err_msg').show();
                     }
                 }
-                if($('#zipToBar').is( ":checked" )){
-                   if(secPostCode(code)){
-                       $.post('/zipToBar',{
-                                   code : code
-                               },function(data,status){
-                                   alert(status);
-                                   $('#result').text(data);
-                               }
-                       );
-                   }else{
-                       $('#err_msg').show();
-                   }
+                if ($('#zipToBar').is(":checked")) {
+                    if (secPostCode(code)) {
+                        $.post('/zipToBar', {
+                                    code: code
+                                }, function (data, status) {
+                                    if (status === 'success') {
+                                        if (data === 'ERROR_TYPE_THREE') {
+                                            $('#err_msg').text('Error! 邮编格式错误 ！');
+                                            $('err_msg').show();
+                                            return;
+                                        }
+                                        $('#result').text(data);
+                                        return;
+                                    }
+
+                                }
+                        );
+                    } else {
+                        $('#err_msg').show();
+                    }
                 }
 
             });
-            $('#inputs_code').focusin(function(){
+            $('#inputs_code').focusin(function () {
                 $('#promot_msg').hide();
+                $('#err_msg').text('Error! inputs is leage.Please input try again.');
                 $('#err_msg').hide();
             });
         });
@@ -74,7 +106,7 @@
 </head>
 <body>
 
-<header  class="text-center">
+<header class="text-center">
     <h1>POST-NET</h1>
     <hr/>
 </header>
@@ -84,8 +116,11 @@
             <label for="inputs_code" class="col-sm-4 control-label">Input-code : </label>
 
             <div class="col-sm-6">
-                <input type="text" name="inputs_code" class="form-control" id="inputs_code" placeholder="Please input a code in here">
+                <input type="text" name="inputs_code" class="form-control" id="inputs_code"
+                       placeholder="Please input a code in here">
+
                 <p id="err_msg" hidden="hidden" class="text-danger">Error! inputs is leage.Please input try again.</p>
+
                 <p id="promot_msg" hidden="hidden" class="text-info">Tips : Please input code.</p>
             </div>
         </div>
@@ -101,9 +136,11 @@
             <div class="col-sm-offset-3 col-sm-6">
                 <div class="checkbox">
                     <label>
-                        <input type="radio" form="translatorForm" name="translator_method" id="barToZip" value="barToZip" checked/>Barcode to Zipcode</label>
+                        <input type="radio" form="translatorForm" name="translator_method" id="barToZip"
+                               value="barToZip" checked/>Barcode to Zipcode</label>
                     <label>
-                        <input type="radio" form="translatorForm" name="translator_method" id="zipToBar" value="zipToBar"/>Zipcode to Barcode
+                        <input type="radio" form="translatorForm" name="translator_method" id="zipToBar"
+                               value="zipToBar"/>Zipcode to Barcode
                     </label>
 
                 </div>
