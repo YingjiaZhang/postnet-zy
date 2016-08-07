@@ -14,26 +14,30 @@
     <script src="page/js/deal.js"></script>
 
     <title>postnet</title>
-
 </head>
 <body>
 
 <header class="text-center">
-    <h1>POST-NET</h1><hr/>
+    <h1>POST-NET</h1>
+    <hr/>
 </header>
 <section id="translator">
     <form class="form-horizontal" id="translatorForm">
         <div class="form-group-lg">
             <label for="inputs_code" class="col-sm-4 control-label">Input-code : </label>
+
             <div class="col-sm-6">
                 <input type="text" name="inputs_code" class="form-control" id="inputs_code"
                        placeholder="Please input a code in here">
+
                 <p id="err_msg" hidden="hidden" class="text-danger">Error! inputs is leage.Please input try again.</p>
+
                 <p id="promot_msg" hidden="hidden" class="text-info">Tips : Please input code.</p>
             </div>
         </div>
         <div class="form-group">
             <label for="result" class="col-sm-4 control-label"> Result : </label>
+
             <div class="col-sm-6">
                 <p id="result" name="result"></p>
             </div>
@@ -58,12 +62,13 @@
         </div>
     </form>
 </section>
-<section id="history-part" class="text-center">
+
+<section id="history-part">
     <table id="history" class="table table-hover">
         <caption><h3 class="text-center">History</h3></caption>
-        <tr>
-            <th class="text-center"><span>Code</span></th>
-            <th class="text-center"><span>Result</span></th>
+        <tr class="text-center">
+            <th class="text-center" width="50%">Code</th>
+            <th class="text-center" width="50%">Result</th>
         </tr>
     </table>
 </section>

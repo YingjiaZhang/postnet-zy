@@ -13,7 +13,7 @@ function getSecCode(formatPostcode) {
     let count = formatPostcode.reduce(function (code, sum) {
         return Number(code) + Number(sum);
     }, 0);
-    return (parseInt(count / 10) + 1) * 10 - count;
+    return count === 0 ? 0 : (parseInt(count / 10) + 1) * 10 - count;
 }
 
 function getPostSecCode(formatPostcode, secCode) {
@@ -42,8 +42,8 @@ function matchPostcode(barcodes, postSecCode) {
     });
 }
 
-function getBarcodeStr(postBarcodes, postCode) {
-    let str = '|'+' ';
+function getBarcodeStr(postBarcodes) {
+    let str = '|' + ' ';
     postBarcodes.forEach(function (code) {
         str += code + ' ';
     });
@@ -63,7 +63,7 @@ class PostcodeToBarcode {
         let postSecCode = getPostSecCode(formatPostcode, secCode);
         let barcodes = loadAllBarcodes();
         let postBarcodes = matchPostcode(barcodes, postSecCode);
-        let barcodeStr = getBarcodeStr(postBarcodes, postCode);
+        let barcodeStr = getBarcodeStr(postBarcodes);
 
         return barcodeStr;
     }

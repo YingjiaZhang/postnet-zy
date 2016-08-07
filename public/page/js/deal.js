@@ -37,8 +37,8 @@ $(document).ready(function () {
                                 return;
                             }
                             $('#result').text(data);
-                            $('#history tr:last').after('<tr><td>'+code+'</td>'
-                                +'<td>'+data+'</td></tr>');
+                            $('#history tr:last').after('<tr class="' + 'text-center' + '"' + '><td>'
+                                + code + '</td><td>' + data + '</td></tr>');
                             return;
                         }
 
@@ -63,8 +63,9 @@ $(document).ready(function () {
                                 return;
                             }
                             $('#result').text(data);
-                            $('#history tr:last').after('<tr><td>'+code+'</td>'
-                                +'<td>'+data+'</td></tr>');
+                            $('#history tr:last').after(
+                                '<tr class="' + 'text-center' + '"' + '><td>'
+                                + code + '</td><td>' + data + '</td></tr>');
                             return;
                         }
 
