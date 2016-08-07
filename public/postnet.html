@@ -4,127 +4,36 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- include source files here... -->
     <link rel="stylesheet" href="page/css/bootstrap.css"/>
+    <link rel="stylesheet" href="page/css/global-style.css"/>
     <script src="page/jquery/jquery-3.1.0.js"></script>
     <script src="page/js/bootstrap.js"></script>
     <script src="page/js/verfication.js"></script>
+    <script src="page/js/deal.js"></script>
+
     <title>postnet</title>
-
-    <!-- include source files here... -->
-    <!-- include spec files here... -->
-    <style type="text/css">
-        body {
-            padding-top: 40px;
-            padding-bottom: 130px;
-            padding-right: 200px;
-            padding-left: 200px;
-            font-family: "Abel", Arial, sans-serif;
-            line-height: 30px;
-            font-size: 18px;
-        }
-    </style>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#ok').click(function () {
-
-                $('#promot_msg').hide();
-                $('#err_msg').hide();
-                $('#err_msg').text('Error! inputs is leage.Please input try again.');
-                $('#result').text('');
-
-                var code = $('#inputs_code').val();
-                if (code === '') {
-                    //提示用户输入：
-                    $('#promot_msg').show();
-                    return;
-                }
-
-                if ($('#barToZip').is(":checked")) {
-                    if (secBarCode(code)) {
-                        $.post('/barToZip', {
-                                    code: code
-                                }, function (data, status) {
-
-                                    if (status === 'success') {
-
-                                        if (data === 'ERROR_TYPE_ONE') {
-                                            $('#err_msg').text('Error! 条形码格式错误 ！');
-                                            $('#err_msg').show();
-                                            return;
-                                        }
-                                        if (data === 'ERROR_TYPE_TWO') {
-                                            $('#err_msg').text('Error! 校验码验证错误 ！');
-                                            $('#err_msg').show();
-//                                            $('#err_msg').text('Error! inputs is leage.Please input try again.');
-                                            return;
-                                        }
-                                        $('#result').text(data);
-                                        return;
-                                    }
-
-                                }
-                        );
-
-                    } else {
-                        $('#err_msg').show();
-                    }
-                }
-                if ($('#zipToBar').is(":checked")) {
-                    if (secPostCode(code)) {
-                        $.post('/zipToBar', {
-                                    code: code
-                                }, function (data, status) {
-                                    if (status === 'success') {
-                                        if (data === 'ERROR_TYPE_THREE') {
-                                            $('#err_msg').text('Error! 邮编格式错误 ！');
-                                            $('err_msg').show();
-                                            return;
-                                        }
-                                        $('#result').text(data);
-                                        return;
-                                    }
-
-                                }
-                        );
-                    } else {
-                        $('#err_msg').show();
-                    }
-                }
-
-            });
-            $('#inputs_code').focusin(function () {
-                $('#promot_msg').hide();
-                $('#err_msg').text('Error! inputs is leage.Please input try again.');
-                $('#err_msg').hide();
-            });
-        });
-    </script>
 
 </head>
 <body>
 
 <header class="text-center">
-    <h1>POST-NET</h1>
-    <hr/>
+    <h1>POST-NET</h1><hr/>
 </header>
 <section id="translator">
     <form class="form-horizontal" id="translatorForm">
         <div class="form-group-lg">
             <label for="inputs_code" class="col-sm-4 control-label">Input-code : </label>
-
             <div class="col-sm-6">
                 <input type="text" name="inputs_code" class="form-control" id="inputs_code"
                        placeholder="Please input a code in here">
-
                 <p id="err_msg" hidden="hidden" class="text-danger">Error! inputs is leage.Please input try again.</p>
-
                 <p id="promot_msg" hidden="hidden" class="text-info">Tips : Please input code.</p>
             </div>
         </div>
         <div class="form-group">
-
             <label for="result" class="col-sm-4 control-label"> Result : </label>
-
             <div class="col-sm-6">
                 <p id="result" name="result"></p>
             </div>
@@ -139,7 +48,6 @@
                         <input type="radio" form="translatorForm" name="translator_method" id="zipToBar"
                                value="zipToBar"/>Zipcode to Barcode
                     </label>
-
                 </div>
             </div>
         </div>
@@ -150,32 +58,14 @@
         </div>
     </form>
 </section>
-<div>
-</div>
-
-<section id="history" class="text-center">
-    <table class="table table-hover">
+<section id="history-part" class="text-center">
+    <table id="history" class="table table-hover">
         <caption><h3 class="text-center">History</h3></caption>
-
         <tr>
             <th class="text-center"><span>Code</span></th>
             <th class="text-center"><span>Result</span></th>
         </tr>
-        <tr>
-            <td>lalala</td>
-            <td>lalala</td>
-        </tr>
-        <tr>
-            <td>lalala</td>
-            <td>lalala</td>
-        </tr>
-        <tr>
-            <td>lalala</td>
-            <td>lalala</td>
-        </tr>
-        </tbody>
     </table>
-
 </section>
 
 </body>
