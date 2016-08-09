@@ -2,7 +2,7 @@
  * Created by Sunshine on 2016/8/8.
  */
 $(document).ready(function () {
-
+    let tr_count=0;
     $('#ok').click(function () {
 
         $('#promot_msg').hide();
@@ -37,8 +37,14 @@ $(document).ready(function () {
                                 return;
                             }
                             $('#result').text(data);
-                            $('#history tr:last').after('<tr class="' + 'text-center' + '"' + '><td>'
+                            $('#history tr:first').after('<tr class="' + 'text-center' + '"' + '><td>'
                                 + code + '</td><td>' + data + '</td></tr>');
+                            tr_count++;
+                            alert(tr_count);
+                            if(tr_count>3){
+                                alert();
+                                $('#history').remove($('#history tr:last'));
+                            }
                             return;
                         }
 
@@ -63,9 +69,17 @@ $(document).ready(function () {
                                 return;
                             }
                             $('#result').text(data);
-                            $('#history tr:last').after(
+
+                            alert(tr_count);
+                            if(tr_count>=3){
+                                alert('----------');
+                               $('#history tr:last').empty();
+                            }
+                            tr_count++;
+                            $('#history tr:first').after(
                                 '<tr class="' + 'text-center' + '"' + '><td>'
                                 + code + '</td><td>' + data + '</td></tr>');
+
                             return;
                         }
 
